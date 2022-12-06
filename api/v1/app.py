@@ -1,6 +1,7 @@
 #!/usr/bin/python3
-"""for start my api"""
-
+"""
+for start my api
+"""
 from flask import Flask
 from models import storage
 from api.v1.views import app_views
@@ -12,6 +13,7 @@ app.register_blueprint(app_views)
 @app.teardown_appcontext
 def teardown(excepte):
     """closes the storage on teardown"""
+
     storage.close()
 
 
