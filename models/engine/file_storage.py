@@ -73,7 +73,7 @@ class FileStorage:
     def count(self, cls=None):
         """count all object"""
         return len(self.all(cls))
-    
+
     def get(self, cls, id):
         """count all object"""
         query = "{}.{}".format(str(cls.__name__), id)
