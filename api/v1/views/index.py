@@ -2,7 +2,6 @@
 """
 idex for api
 """
-import json
 from flask import jsonify, Flask
 from api.v1.views import app_views
 from models import storage
@@ -19,11 +18,11 @@ def counter():
     """counter for obj"""
 
     table = {
-        "amenities": storage.count('Amenity'), 
-        "cities": storage.count('City'), 
-        "places": storage.count('Place'), 
-        "reviews": storage.count('Review'), 
-        "states": storage.count('State'), 
+        "amenities": storage.count('Amenity'),
+        "cities": storage.count('City'),
+        "places": storage.count('Place'),
+        "reviews": storage.count('Review'),
+        "states": storage.count('State'),
         "users": storage.count('User')
     }
 
@@ -31,5 +30,5 @@ def counter():
     table.status_code = 200
     table.content_type = "application/json"
     """
-    count = json.dumps(table, indent=4)
-    return count + '\n'
+    count = jsonify(table)
+    return count
