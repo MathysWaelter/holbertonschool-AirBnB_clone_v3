@@ -29,6 +29,4 @@ def handler_error(stat):
 
 
 if __name__ == "__main__":
-    hostapi = getenv('HBNB_API_HOST', default='0.0.0.0')
-    portapi = getenv('HBNB_API_PORT', default=5000)
-    app.run(host=hostapi, port=portapi, threaded=True)
+    app.run(getenv('HBNB_API_HOST', getenv('HBNB_API_PORT'), threaded=True))
