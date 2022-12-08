@@ -62,4 +62,4 @@ def state_create():
     new_obj = State(name=new_state['name'])
     storage.new(new_obj)
     storage.save()
-    return json.dumps(new_obj.to_dict(), 201, sort_keys=True, indent=4)
+    return new_obj.to_dict(), 201
