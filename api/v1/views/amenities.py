@@ -23,7 +23,8 @@ def amenity_list():
         return json.dumps(all_amenity, sort_keys=True, indent=4)
 
 
-@app_views.route("/amenities/<amenity_id>", methods=["GET"], strict_slashes=False)
+@app_views.route("/amenities/<amenity_id>", methods=["GET"],
+                 strict_slashes=False)
 def amenity_select(amenity_id):
     """
     select amenity by id
@@ -68,7 +69,8 @@ def amenity_create():
     return new_obj.to_dict(), 201
 
 
-@app_views.route("/amenities/<amenity_id>", methods=["PUT"], strict_slashes=False)
+@app_views.route("/amenities/<amenity_id>", methods=["PUT"],
+                 strict_slashes=False)
 def amenity_update(amenity_id):
     """
     update amenity by id
