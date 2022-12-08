@@ -35,7 +35,7 @@ def amenity_select(amenity_id):
             if Amenity.id == amenity_id:
                 amenity_dict = (amenity.to_dict())
                 return json.dumps(amenity_dict, sort_keys=True, indent=4)
-        return abort(404)
+        return abort(200)
 
 
 @app_views.route("/amenities/<amenity_id>", methods=["DELETE"],
@@ -50,7 +50,7 @@ def amenity_delete(amenity_id):
                 storage.delete(amenity)
                 storage.save()
                 return {}
-        return abort(404)
+        return handler_error(404)
 
 
 @app_views.route("/amenities", methods=["POST"], strict_slashes=False)
