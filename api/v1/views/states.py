@@ -22,6 +22,7 @@ def state_list():
             json.dumps(all_state)
         return json.dumps(all_state, sort_keys=True, indent=4)
 
+
 @app_views.route("/states/<state_id>", methods=["GET"], strict_slashes=False)
 def state_select(state_id):
     """
@@ -35,7 +36,9 @@ def state_select(state_id):
                 return json.dumps(state_dict, sort_keys=True, indent=4)
         return handler_error(404)
 
-@app_views.route("/states/<state_id>", methods=["DELETE"], strict_slashes=False)
+
+@app_views.route("/states/<state_id>", methods=["DELETE"],
+                 strict_slashes=False)
 def state_delete(state_id):
     """
     delete state by id
@@ -64,17 +67,18 @@ def state_create():
     storage.save()
     return new_obj.to_dict(), 201
 
+
 @app_views.route("/states/<state_id>", methods=["PUT"], strict_slashes=False)
 def state_update(state_id):
     """
     update state by id
     """
     new = request.get_json(silent=True)
-    old = storage.get(State, state_id)
     if not new:
         return abort(400, {"Not a JSON"})
+    old = storage.get(State, state_id)
     if not old:
-        return abort(404)
+        return handler_error(404)
     for key, value in new.items():
         if key not in ['id', 'created_at']:
             setattr(old, key, value)
