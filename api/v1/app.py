@@ -22,16 +22,7 @@ def teardown(excepte):
 @app.errorhandler(404)
 def handler_error(stat):
     """returns a JSON-formatted 404 status code response"""
-    if stat == 404:
-        format_error = {
-            "error": "Not found"
-        }
-        return make_response(jsonify(format_error), stat)
-    if stat == 400:
-        format_errore = {
-            "error": "Not a JSON"
-        }
-        return make_response(jsonify(format_errore), stat)
+    return jsonify({"error": "Not found"}), 404
 
 
 
