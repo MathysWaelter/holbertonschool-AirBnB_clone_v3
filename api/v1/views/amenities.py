@@ -28,10 +28,13 @@ def amenity_select(amenity_id):
     """
     select amenity by id
     """
-    selectamen = storage.get('Amenity', str(amenity_id))
-    if selectamen is None:
-        abort(404)
-    return jsonify(selectamen.to_json())
+    if request.method == "GET":
+        storagest = storage.all("Amenity")
+        storageamen = storagest.get('Amenity' + "." + amenity_id)
+        if storageamen is None:
+            abort(404)
+        else:
+            return jsonify(storageamen.to_dict()), 200
 
 
 @app_views.route("/amenities/<amenity_id>", methods=["DELETE"],
