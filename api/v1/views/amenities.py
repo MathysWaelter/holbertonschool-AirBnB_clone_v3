@@ -9,6 +9,8 @@ from models.amenity import Amenity
 from api.v1.app import handler_error
 
 app = Flask(__name__)
+
+
 @app_views.route("/amenities", methods=["GET"], strict_slashes=False)
 def amenity_list():
     """
