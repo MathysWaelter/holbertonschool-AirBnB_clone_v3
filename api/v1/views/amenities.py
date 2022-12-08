@@ -16,7 +16,7 @@ def amenity_list():
     """
     if request.method == "GET":
         all_amenity = []
-        storagest = storage.all("amenity")
+        storagest = storage.all("Amenity")
         for amenity in storagest.values():
             all_amenity.append(amenity.to_dict())
             json.dumps(all_amenity)
@@ -29,9 +29,9 @@ def amenity_select(amenity_id):
     select amenity by id
     """
     if request.method == "GET":
-        storagest = storage.all("amenity")
+        storagest = storage.all("Amenity")
         for amenity in storagest.values():
-            if amenity.id == amenity_id:
+            if Amenity.id == amenity_id:
                 amenity_dict = (amenity.to_dict())
                 return json.dumps(amenity_dict, sort_keys=True, indent=4)
         return handler_error(404)
@@ -44,7 +44,7 @@ def amenity_delete(amenity_id):
     delete amenity by id
     """
     if request.method == "DELETE":
-        for amenity in storage.all("amenity").values():
+        for amenity in storage.all("Amenity").values():
             if amenity.id == amenity_id:
                 storage.delete(amenity)
                 storage.save()
