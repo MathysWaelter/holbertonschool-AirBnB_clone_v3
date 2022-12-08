@@ -28,10 +28,11 @@ def handler_error(stat):
         }
         return make_response(jsonify(format_error), stat)
     if stat == 400:
-        format_error = {
+        format_errore = {
             "error": "Not a JSON"
         }
-        return make_response(jsonify(format_error), stat)
+        return make_response(jsonify(format_errore), stat)
+
 
 
 if __name__ == "__main__":
