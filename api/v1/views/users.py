@@ -46,7 +46,7 @@ def user_delete(user_id):
     delete user by id
     """
     if request.method == "DELETE":
-        for user in storage.all("user").values():
+        for user in storage.all("User").values():
             if user is None:
                 abort(404)
             if user.id == user_id:
@@ -68,10 +68,9 @@ def user_create():
         return abort(400, {"Missing email"})
     if "password" not in new_user:
         return abort(400, {"Missing password"})
-    new_obj = User(name=new_user['name'])
-    storage.new(new_obj)
-    storage.save()
-    return new_obj.to_dict(), 201
+    new_obj = User(**new_user)
+    new_obj.save()
+    return jsonify(new_obj.to_dict()), 201
 
 
 @app_views.route("/users/<user_id>", methods=["PUT"],
