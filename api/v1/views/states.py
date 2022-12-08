@@ -3,11 +3,11 @@
 States Object method
 """
 from api.v1.views import app_views, storage
-from flask import jsonify, request, abort
+from flask import Flask, jsonify, request, abort
 import json
 from models.state import State
 from api.v1.app import handler_error
-
+app = Flask(__name__)
 
 @app_views.route("/states", methods=["GET"], strict_slashes=False)
 def state_list():
