@@ -47,6 +47,8 @@ def user_delete(user_id):
     """
     if request.method == "DELETE":
         for user in storage.all("user").values():
+            if user is None:
+                abort(404)
             if user.id == user_id:
                 storage.delete(user)
                 storage.save()
@@ -64,7 +66,7 @@ def user_create():
         return abort(400, {"Not a JSON"})
     if "name" not in new_user.keys():
         return abort(400, {"Missing name"})
-    new_obj = user(name=new_user['name'])
+    new_obj = User(name=new_user['name'])
     storage.new(new_obj)
     storage.save()
     return new_obj.to_dict(), 201
@@ -79,7 +81,7 @@ def user_update(user_id):
     new = request.get_json(silent=True)
     if not new:
         return abort(400, {"Not a JSON"})
-    old = storage.get(user, user_id)
+    old = storage.get(User, user_id)
     if not old:
         return handler_error(404)
     for key, value in new.items():
