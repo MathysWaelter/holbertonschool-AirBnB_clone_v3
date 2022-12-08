@@ -19,8 +19,7 @@ def amenity_list():
         storagest = storage.all("Amenity")
         for amenity in storagest.values():
             all_amenity.append(amenity.to_dict())
-            json.dumps(all_amenity)
-        return json.dumps(all_amenity, sort_keys=True, indent=4), 200
+        return jsonify(all_amenity), 200
 
 
 @app_views.route("/amenities/<amenity_id>", methods=["GET"],
@@ -32,7 +31,7 @@ def amenity_select(amenity_id):
     if request.method == "GET":
         storagest = storage.all("Amenity")
         for amenity in storagest.values():
-            if Amenity.id == amenity_id:
+            if amenity.id == amenity_id:
                 amenity_dict = (amenity.to_dict())
                 return json.dumps(amenity_dict, sort_keys=True, indent=4), 200
         return abort(200)
