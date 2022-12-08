@@ -46,7 +46,7 @@ def user_delete(user_id):
     delete user by id
     """
     if request.method == "DELETE":
-        for user in storage.all("user").values():
+        for user in storage.all("User").values():
             if user is None:
                 abort(404)
             if user.id == user_id:
