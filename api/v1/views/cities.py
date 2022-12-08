@@ -84,3 +84,17 @@ def city_update(city_id):
             setattr(old, key, value)
     storage.save()
     return jsonify(old.to_dict())
+
+@app_views.route("states/<state_id>/cities", methods=["GET"], strict_slashes=False)
+def state_city_list(state_id):
+    """
+    list all city of a state
+    """
+    if request.method == "GET":
+        all_city = []
+        storagest = storage.all("City")
+        for city in storagest.values():
+            if city.state_id == state_id:
+                all_city.append(city.to_dict())
+                json.dumps(all_city)
+        return json.dumps(all_city, sort_keys=True, indent=4)
