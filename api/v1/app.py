@@ -2,6 +2,7 @@
 """
 for start my api
 """
+
 from os import getenv
 from flask import Flask, jsonify, Blueprint
 from flask_cors import CORS
@@ -17,7 +18,6 @@ app.register_blueprint(app_views)
 @app.teardown_appcontext
 def teardown(excepte):
     """closes the storage on teardown"""
-
     storage.close()
 
 
@@ -31,4 +31,4 @@ def handler_error(stat):
 if __name__ == "__main__":
     hostapi = getenv('HBNB_API_HOST', default='0.0.0.0')
     portapi = getenv('HBNB_API_PORT', default=5000)
-    app.run(host=hostapi, port=int(portapi), threaded=True)
+    app.run(host=hostapi, port=portapi, threaded=True)
