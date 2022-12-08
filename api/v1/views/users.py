@@ -10,9 +10,9 @@ from api.v1.app import handler_error
 
 
 @app_views.route("/users", methods=["GET"], strict_slashes=False)
-def state_list():
+def user_list():
     """
-    list all state
+    list all user
     """
     if request.method == "GET":
         all_user = []
