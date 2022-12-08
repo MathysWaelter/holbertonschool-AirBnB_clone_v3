@@ -3,7 +3,7 @@
 States Object method
 """
 from api.v1.views import app_views, storage
-from flask import jsonify, request
+from flask import jsonify, request, abort
 import json
 from models.state import State
 from api.v1.app import handler_error
@@ -54,12 +54,12 @@ def state_create():
     """
     create state by id
     """
-    if request.method == "POST":
-        new_state = request.get_json()
-        new_obj = State(name=new_state['name'])
-        if new_state is type(json):
-            storage.new(new_obj)
-            storage.save()
-            return json.dumps(new_obj.to_dict(), 201, indent=4)
-        else:
-            return handler_error(400)
+    new_state = request.get_json(silent=True)
+    if not new_state:
+        return abort(400, {"Not a JSON"})
+    if "name" not in new_state.keys():
+        return abort(400, {"Missing name"})
+    new_obj = State(name=new_state['name'])
+    storage.new(new_obj)
+    storage.save()
+    return json.dumps(new_obj.to_dict(), 201, sort_keys=True, indent=4)
