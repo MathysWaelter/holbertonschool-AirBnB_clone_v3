@@ -64,8 +64,10 @@ def state_city_list(state_id):
         if city.state_id == state_id:
             all_city.append(city.to_dict())
             json.dumps(all_city)
-            return json.dumps(all_city, sort_keys=True, indent=4)
-    return abort(404)
+    if len(all_city) == 0:
+        return abort(404)
+    return json.dumps(all_city, sort_keys=True, indent=4)
+
 
 @app_views.route("states/<state_id>/cities", methods=["POST"], strict_slashes=False)
 def city_create(state_id):
