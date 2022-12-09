@@ -89,7 +89,11 @@ def place_create(city_id):
         return abort(400, {"Not a JSON"})
     if "name" not in new_place.keys():
         return abort(400, {"Missing name"})
-    new_obj = Place(name=new_place['name'], city_id=city_id)
+    if "user_id" not in new_place.keys():
+        return abort(404)
+    new_obj = Place(name=new_place['name'],
+                    user_id=new_place['user_id'],
+                    city_id=city_id)
     storage.new(new_obj)
     storage.save()
     return new_obj.to_dict(), 201
