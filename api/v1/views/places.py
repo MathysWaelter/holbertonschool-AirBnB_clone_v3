@@ -88,13 +88,14 @@ def place_create(city_id):
     new_place = request.get_json(silent=True)
     if not new_place:
         return abort(400, {"Not a JSON"})
-    user = storage.get(User, new_place['user_id'])
-    if user is None:
-        return abort(404)
     if "name" not in new_place.keys():
         return abort(400, {"Missing name"})
     if "user_id" not in new_place.keys():
         return abort(400, {"Missing user id"})
+    user = storage.get(User, new_place['user_id'])
+    print("zzzzzzzzzzzz: {}".format(new_place.keys()))
+    if user is None:
+        return abort(404)
     new_obj = Place(name=new_place['name'],
                     user_id=new_place['user_id'],
                     city_id=city_id)
