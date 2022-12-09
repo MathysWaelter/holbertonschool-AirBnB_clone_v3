@@ -9,6 +9,7 @@ from models.city import City
 from models.state import State
 app = Flask(__name__)
 
+
 @app_views.route("/cities/<city_id>", methods=["GET"], strict_slashes=False)
 def city_select(city_id):
     """
@@ -37,6 +38,7 @@ def city_delete(city_id):
                 return {}
         return abort(404)
 
+
 @app_views.route("/cities/<city_id>", methods=["PUT"], strict_slashes=False)
 def city_update(city_id):
     """
@@ -54,13 +56,15 @@ def city_update(city_id):
     storage.save()
     return jsonify(old.to_dict())
 
-@app_views.route("states/<state_id>/cities", methods=["GET"], strict_slashes=False)
+
+@app_views.route("states/<state_id>/cities",
+                 methods=["GET"], strict_slashes=False)
 def state_city_list(state_id):
     """
     list all city of a state
     """
     state = storage.get(State, state_id)
-    if state == None:
+    if state is None:
         abort(404)
     all_city = []
     storagest = storage.all("City")
@@ -70,11 +74,16 @@ def state_city_list(state_id):
             json.dumps(all_city)
     return json.dumps(all_city, sort_keys=True, indent=4)
 
-@app_views.route("states/<state_id>/cities", methods=["POST"], strict_slashes=False)
+
+@app_views.route("states/<state_id>/cities",
+                 methods=["POST"], strict_slashes=False)
 def city_create(state_id):
     """
     create city by id
     """
+    state = storage.get(State, state_id)
+    if state is None:
+        abort(404)
     new_city = request.get_json(silent=True)
     if not new_city:
         return abort(400, {"Not a JSON"})
