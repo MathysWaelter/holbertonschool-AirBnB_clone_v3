@@ -80,7 +80,7 @@ def amenity_update(amenity_id):
         return abort(400, {"Not a JSON"})
     old = storage.get(Amenity, amenity_id)
     if not old:
-        return handler_error(404)
+        return abort(404)
     for key, value in new.items():
         if key not in ['id', 'created_at']:
             setattr(old, key, value)

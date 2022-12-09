@@ -8,6 +8,7 @@ import json
 from models.state import State
 app = Flask(__name__)
 
+
 @app_views.route("/states", methods=["GET"], strict_slashes=False)
 def state_list():
     """
@@ -48,7 +49,7 @@ def state_delete(state_id):
                 storage.delete(state)
                 storage.save()
                 return {}
-        return handler_error(404)
+        return abort(404)
 
 
 @app_views.route("/states", methods=["POST"], strict_slashes=False)
@@ -77,7 +78,7 @@ def state_update(state_id):
         return abort(400, {"Not a JSON"})
     old = storage.get(State, state_id)
     if not old:
-        return handler_error(404)
+        return abort(404)
     for key, value in new.items():
         if key not in ['id', 'created_at']:
             setattr(old, key, value)
