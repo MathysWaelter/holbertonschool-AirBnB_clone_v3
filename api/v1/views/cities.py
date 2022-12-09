@@ -5,7 +5,8 @@ Cities Object method
 from api.v1.views import app_views, storage
 from flask import Flask, jsonify, request, abort
 import json
-from models.state import City
+from models.city import City
+from models.state import State
 app = Flask(__name__)
 
 @app_views.route("/cities/<city_id>", methods=["GET"], strict_slashes=False)
@@ -58,14 +59,15 @@ def state_city_list(state_id):
     """
     list all city of a state
     """
+    state = storage.get(State, state_id)
+    if state == None:
+        abort(404)
     all_city = []
     storagest = storage.all("City")
     for city in storagest.values():
         if city.state_id == state_id:
             all_city.append(city.to_dict())
             json.dumps(all_city)
-    if len(all_city) == 0:
-        abort(404)
     return json.dumps(all_city, sort_keys=True, indent=4)
 
 @app_views.route("states/<state_id>/cities", methods=["POST"], strict_slashes=False)
