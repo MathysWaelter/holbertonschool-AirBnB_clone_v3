@@ -6,7 +6,6 @@ from api.v1.views import app_views, storage
 from flask import jsonify, request, abort, Flask
 import json
 from models.amenity import Amenity
-from api.v1.app import handler_error
 
 app = Flask(__name__)
 
@@ -51,7 +50,7 @@ def amenity_delete(amenity_id):
                 storage.delete(amenity)
                 storage.save()
                 return {}
-        return handler_error(404)
+        return abort(404)
 
 
 @app_views.route("/amenities", methods=["POST"], strict_slashes=False)

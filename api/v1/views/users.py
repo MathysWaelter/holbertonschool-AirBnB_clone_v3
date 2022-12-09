@@ -6,7 +6,6 @@ from api.v1.views import app_views, storage
 from flask import jsonify, request, abort, Flask
 import json
 from models.user import User
-from api.v1.app import handler_error
 
 app = Flask(__name__)
 
@@ -53,7 +52,7 @@ def user_delete(user_id):
                 storage.delete(user)
                 storage.save()
                 return {}
-        return handler_error(404)
+        return abort(404)
 
 
 @app_views.route("/users", methods=["POST"], strict_slashes=False)
