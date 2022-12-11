@@ -19,24 +19,28 @@ def review_select(review_id):
     select place by id
     """
     if request.method == "GET":
-        storagest = storage.all("Review", review_id)
-        if storagest:
-          review_dict = (storagest.to_dict())
-          return json.dumps(review_dict, sort_keys=True, indent=4)
+        storagest = storage.all("Review")
+        for review in storagest.values():
+            if review.id == review_id:
+                review_dict = (review.to_dict())
+                return json.dumps(review_dict, sort_keys=True, indent=4)
         return abort(404)
       
-@app_views.route("places/<places_id>/reviews", methods=["GET"],
+@app_views.route("places/<place_id>/reviews", methods=["GET"],
                  strict_slashes=False)
 def review__select_by_place(place_id):
     """Returns JSON reviews of given place"""
-    storagest = storage.get('Place', place_id)
-    if storagest:
-        reviews = []
-        for review in storagest.reviews:
-            reviews.append(review.to_dict())
-        review_dict = reviews.to_dict()
-        return json.dumps(review_dict, sort_keys=True, indent=4)
-    return abort(404)
+    place = storage.get(Place, place_id)
+    if place is None:
+        return abort(404)
+    all_review = []
+    storagest = storage.all("Review")
+    for review in storagest.values():
+        if review.place_id == place_id:
+            all_review.append(review.to_dict())
+            json.dumps(all_review)
+    return json.dumps(all_review, sort_keys=True, indent=4)
+
 
 @app_views.route("/reviews/<review_id>", methods=["DELETE"],
                  strict_slashes=False)
