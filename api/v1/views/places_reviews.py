@@ -56,7 +56,7 @@ def review_delete(review_id):
                 return {}
         return abort(404)
 
-@app_views.route("/review/<review_id>", methods=["PUT"], strict_slashes=False)
+@app_views.route("/reviews/<review_id>", methods=["PUT"], strict_slashes=False)
 def review_update(review_id):
     """
     update review by id
@@ -68,7 +68,11 @@ def review_update(review_id):
     if not old:
         return abort(404)
     for key, value in new.items():
-        if key not in ['id', 'created_at']:
+        if key not in ['id',
+                       'created_at',
+                       'updated_at',
+                       'user_id',
+                       'place_id']:
             setattr(old, key, value)
     storage.save()
     return jsonify(old.to_dict())
