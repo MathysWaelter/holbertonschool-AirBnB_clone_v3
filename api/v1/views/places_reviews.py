@@ -79,8 +79,8 @@ def review_create(place_id):
     """
     create review by id
     """
-    city = storage.get(Place, place_id)
-    if city is None:
+    place = storage.get(Place, place_id)
+    if place is None:
         return abort(404)
     new_review = request.get_json(silent=True)
     if not new_review:
@@ -89,11 +89,15 @@ def review_create(place_id):
         return abort(400, {"Missing name"})
     if "user_id" not in new_review.keys():
         return abort(400, {"Missing user id"})
+    if "place_id" not in new_review.keys():
+        return abort(400, {"Missing place id"})
     user = storage.get(User, new_review['user_id'])
-    print("zzzzzzzzzzzz: {}".format(new_review.keys()))
     if user is None:
         return abort(404)
-    new_obj = Review(name=new_review['text'],
+    place = storage.get(Place, new_review['place_id'])
+    if place is None:
+        return abort(404)
+    new_obj = Review(text=new_review['text'],
                     user_id=new_review['user_id'],
                     place_id=place_id)
     storage.new(new_obj)
