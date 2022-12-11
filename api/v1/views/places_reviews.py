@@ -25,7 +25,8 @@ def review_select(review_id):
                 review_dict = (review.to_dict())
                 return json.dumps(review_dict, sort_keys=True, indent=4)
         return abort(404)
-      
+
+
 @app_views.route("places/<place_id>/reviews", methods=["GET"],
                  strict_slashes=False)
 def review__select_by_place(place_id):
@@ -56,6 +57,7 @@ def review_delete(review_id):
                 return {}
         return abort(404)
 
+
 @app_views.route("/reviews/<review_id>", methods=["PUT"], strict_slashes=False)
 def review_update(review_id):
     """
@@ -77,6 +79,7 @@ def review_update(review_id):
     storage.save()
     return jsonify(old.to_dict())
 
+
 @app_views.route("places/<place_id>/reviews",
                  methods=["POST"], strict_slashes=False)
 def review_create(place_id):
@@ -97,8 +100,8 @@ def review_create(place_id):
     if user is None:
         return abort(404)
     new_obj = Review(text=new_review['text'],
-                    user_id=new_review['user_id'],
-                    place_id=place_id)
+                     user_id=new_review['user_id'],
+                     place_id=place_id)
     storage.new(new_obj)
     storage.save()
     return new_obj.to_dict(), 201
