@@ -73,7 +73,7 @@ def review_update(review_id):
     storage.save()
     return jsonify(old.to_dict())
 
-@app_views.route("reviews/<place_id>/reviews",
+@app_views.route("places/<place_id>/reviews",
                  methods=["POST"], strict_slashes=False)
 def review_create(place_id):
     """
@@ -86,16 +86,11 @@ def review_create(place_id):
     if not new_review:
         return abort(400, {"Not a JSON"})
     if "text" not in new_review.keys():
-        return abort(400, {"Missing name"})
+        return abort(400, {"Missing text"})
     if "user_id" not in new_review.keys():
         return abort(400, {"Missing user id"})
-    if "place_id" not in new_review.keys():
-        return abort(400, {"Missing place id"})
     user = storage.get(User, new_review['user_id'])
     if user is None:
-        return abort(404)
-    place = storage.get(Place, new_review['place_id'])
-    if place is None:
         return abort(404)
     new_obj = Review(text=new_review['text'],
                     user_id=new_review['user_id'],
